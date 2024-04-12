@@ -6,7 +6,7 @@ import { UserRepository } from "../repository/user.repository";
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand>{
    constructor(private readonly userRepository: UserRepository){}
 
-    async execute(command: CreateUserCommand): Promise<any> {
-        
+    async execute(command: CreateUserCommand){
+        return this.userRepository.createUser(command.createUserDto);
     }
 }
