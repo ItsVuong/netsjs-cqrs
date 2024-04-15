@@ -9,9 +9,13 @@ export class UserRepository{
     constructor(
         @InjectModel(User.name) private userModel: Model<User>){}
 
-        async createUser(createCatDto: CreateUserDto){
-            const createdCat = new this.userModel(createCatDto);
-            return await createdCat.save();
+        async createUser(createdPostDto: CreateUserDto){
+            const createdPost = new this.userModel(createdPostDto);
+            return await createdPost.save();
+        }
+
+        async getUsername(username: string){
+            return await this.userModel.find({username: username}); 
         }
     
 }
