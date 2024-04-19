@@ -22,6 +22,6 @@ export class CreatePostDto {
 
     @IsNotEmpty()
     @Validate(UserExistsValidator)
-    userID: string;
+    user: string;
 }
 export const UserSchema = SchemaFactory.createForClass(CreatePostDto);    

@@ -14,7 +14,8 @@ import { QueryHandler } from "./query/handlers";
     imports: [MongooseModule.forFeature([{name: Post.name, schema: PostSchema}]),
             CqrsModule],
     controllers: [PostController],
-    providers: [PostRepository, 
+    providers: [
+        PostRepository, 
         UserExistsValidator, 
         ...QueryHandler,
         ...CommandHadlers

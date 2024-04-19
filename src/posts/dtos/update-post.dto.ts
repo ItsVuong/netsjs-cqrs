@@ -1,6 +1,5 @@
-import { Optional } from "@nestjs/common";
-import { SchemaFactory } from "@nestjs/mongoose";
-import { IsOptional, IsString, Validate, ValidateNested } from "class-validator";
+
+import { IsOptional, IsString } from "class-validator";
 
 export class UpdatePostDto {
     @IsOptional()

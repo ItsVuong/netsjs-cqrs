@@ -1,4 +1,4 @@
-import { CreatePostDto } from "src/posts/dto/create-post.dto";
+import { CreatePostDto } from "src/posts/dtos/create-post.dto";
 
 export class CreatePostCommand {
     constructor(

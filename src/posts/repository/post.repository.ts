@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { CreatePostDto } from "src/posts/dto/create-post.dto";
+import { CreatePostDto } from "src/posts/dtos/create-post.dto";
 import { Post } from "../schemas/post.schema";
 
 @Injectable()
@@ -11,11 +11,14 @@ export class PostRepository {
 
     async createPost(createPostDto: CreatePostDto) {
         const createdPost = new this.postModel(createPostDto);
-        return await createdPost.save();
+        return createdPost.save();
     }
 
     async getAllPosts(){
-        return await this.postModel.find({});
+        return this.postModel.find({}).populate('user');
     }
 
+    async updatePost(id, UpdatePostDto){
+        return this.postModel.findByIdAndUpdate(id, UpdatePostDto, {new: true})
+    }
 }

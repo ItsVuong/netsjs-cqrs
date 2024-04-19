@@ -1,22 +1,43 @@
 import { Injectable } from "@nestjs/common";
-import { QueryBus } from "@nestjs/cqrs";
-import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
-import { GetUsername } from "src/users/queries/impelments/get-user.query";
+import { registerDecorator, ValidationArguments, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
 
 @ValidatorConstraint()
 @Injectable()
 export class DateStringValidator implements ValidatorConstraintInterface {
-  //"DD-MM-YYYY"  
-  validate(date: string) {
-    console.log(date)
-    const regex1 = /^(\d{4})-(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])$/;
-    const regex2 = /^(\d{4})\/(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])$/;
-    if (regex1.test(date) || regex2.test(date)) return true;
 
+  validate(date: string) {
+    if (this.validateDateString(date)) return true;
     return false;
   }
 
   defaultMessage(args: ValidationArguments) {
     return `Invalid date`;
+  }
+
+  private validateDateString(dateString: string): boolean {
+    const reFormattedString = dateString.replaceAll("\/", "-");
+    const dateArray = reFormattedString.split("-");
+    const date = new Date(reFormattedString);
+    
+    const monthString = (/\d{4}/.test(reFormattedString[0]))? dateArray[2] : dateArray[1]
+
+    // console.log(monthString);
+    // console.log(`Date: ${date}, stringArray: ${dateArray}`)
+
+    if ((date.getMonth() + 1) == Number(monthString))
+      return true;
+    return false;
+  }
+}
+
+export function validateDateString(validationOptions?: ValidationOptions) {
+  return function (object: Object, propertyName: string) {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [],
+      validator: DateStringValidator,
+    });
   }
 }
