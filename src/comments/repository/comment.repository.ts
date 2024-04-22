@@ -10,7 +10,7 @@ export class CommentRepository{
         @InjectModel(Comment.name) private commentModel: Model<Comment>
     ){}
 
-    async createComment(createCommentDto : CreateCommentDto): Promise<any>{
+    async createComment(createCommentDto : CreateCommentDto): Promise<Comment>{
         const createComment = new this.commentModel(createCommentDto);
         return createComment.save();
     }

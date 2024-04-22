@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
 import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
-import { GetUsername } from "src/users/queries/impelments/get-user.query";
+import { findUserByUsernameCommand } from "src/users/queries/impelments/find-user-by-username.query";
 
 @ValidatorConstraint({ name: 'UserExists', async: true })
 @Injectable()
@@ -12,8 +12,8 @@ export class UserExistsValidator implements ValidatorConstraintInterface {
 
   async validate(id: string) {
     try {
-      const user = await this.queryBus.execute(new GetUsername(id));
-      if (user && user.length) return false;
+      const user = await this.queryBus.execute(new findUserByUsernameCommand(id));
+      if (user && user.username !== undefined) return false;
     } catch (e) {
       return false; 
     }

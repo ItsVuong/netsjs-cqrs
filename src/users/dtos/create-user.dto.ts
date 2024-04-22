@@ -15,6 +15,10 @@ export class CreateUserDto {
     @Validate(UserExistsValidator)
     username: string;
 
+    @IsString()
+    @IsNotEmpty()
+    password: string;
+
     @ApiProperty({
         description: "Date of birth.",
         example: "2010-10-10"

@@ -8,12 +8,14 @@ import { UserExistsValidator } from "src/decorators/UserExistValidator.decorator
 import { DateStringValidator } from "src/decorators/DateValidator.decorator";
 import { CommandHandlers } from "./commands/handlers";
 import { QueryHandlers } from "./queries/handlers";
+import { UserService } from "./user.service";
 
 @Module({
     imports: [MongooseModule.forFeature([{name: User.name, schema: UserSchema}]),
             CqrsModule],
     controllers: [UserController],
     providers: [UserRepository, UserExistsValidator, DateStringValidator,
+        UserService,
         ...CommandHandlers,
         ...QueryHandlers
     ]

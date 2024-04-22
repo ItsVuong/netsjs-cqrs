@@ -1,13 +1,14 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-import { GetUsername } from "../impelments/get-user.query";
+import { findUserByUsernameCommand } from "../impelments/find-user-by-username.query";
 import { UserRepository } from "src/users/repository/user.repository";
+import { User } from "src/users/schemas/user.schema";
 
-@QueryHandler(GetUsername)
-export class GetUsernameHandler implements IQueryHandler<GetUsername>{
+@QueryHandler(findUserByUsernameCommand)
+export class GetUsernameHandler implements IQueryHandler<findUserByUsernameCommand>{
     constructor(public readonly userRepository: UserRepository) {}
 
-    execute(query: GetUsername): Promise<any> {
-        return this.userRepository.getUsername(query.username) 
+    execute(query: findUserByUsernameCommand): Promise<User> {
+        return this.userRepository.findOneByUsername(query.username) 
     }
 
 }

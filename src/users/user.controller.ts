@@ -2,15 +2,16 @@ import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from "@n
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { CreateUserCommand } from "./commands/handlers/create-user.command";
-import { GetUsername } from "./queries/impelments/get-user.query";
 import { ApiBadRequestResponse, ApiCreatedResponse } from "@nestjs/swagger";
 import { User } from "./schemas/user.schema";
+import { UserService } from "./user.service";
 
 @Controller('/user')
 export class UserController{
     constructor(
         private readonly commandBus: CommandBus,
-        private readonly queryBus: QueryBus
+        private readonly queryBus: QueryBus,
+        private readonly userService: UserService
     ){}
 
     @Post()
@@ -21,21 +22,14 @@ export class UserController{
     @ApiBadRequestResponse({
         description: "Username has already been used or date of birth is invalid."
     })
-    // @UsePipes(new DateTransformPipe())
     async createUser(@Body(new ValidationPipe({transform: true})) createUserDto: CreateUserDto)
     {
-        const date = createUserDto.dob;
-
-        return this.commandBus.execute(
-            new CreateUserCommand(createUserDto)
-        );
+        return this.userService.createUser(createUserDto)
     }
 
     @Get(':username')
-    async getUser(@Param('username') id: string)
+    async getUser(@Param('username') username: string)
     {
-        return this.queryBus.execute(
-            new GetUsername(id)
-        );
+        return this.userService.findOneByUsername(username);
     }
 }

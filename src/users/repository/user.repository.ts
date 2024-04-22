@@ -14,8 +14,8 @@ export class UserRepository{
             return await createdPost.save();
         }
 
-        async getUsername(username: string){
-            return await this.userModel.find({username: username}); 
+        async findOneByUsername(username: string){
+            return this.userModel.findOne({username: username}); 
         }
     
 }
