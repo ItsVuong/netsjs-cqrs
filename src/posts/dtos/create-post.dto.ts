@@ -11,7 +11,7 @@ export class CreatePostDto {
     content: string;
 
     @Optional()
-    @IsString({each: true})
+    // @IsString({each: true})
     images: string[];
 
     @Optional()

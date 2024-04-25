@@ -7,7 +7,7 @@ import { User } from "src/users/schemas/user.schema";
 export class GetUsernameHandler implements IQueryHandler<findUserByUsernameCommand>{
     constructor(public readonly userRepository: UserRepository) {}
 
-    execute(query: findUserByUsernameCommand): Promise<User> {
+    execute(query: findUserByUsernameCommand): Promise<any> {
         return this.userRepository.findOneByUsername(query.username) 
     }
 

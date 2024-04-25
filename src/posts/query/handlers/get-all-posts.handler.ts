@@ -4,10 +4,12 @@ import { PostRepository } from "../../repository/post.repository";
 
 @QueryHandler(GetAllPostsQuery)
 export class GetAllPostsHandler implements IQueryHandler<GetAllPostsQuery>{
-    constructor(public readonly postRepository: PostRepository){}
+    constructor(
+        private readonly postRepository: PostRepository,
+    ){}
     
-    execute() {
-        return this.postRepository.getAllPosts();
+    execute(getAllPostQuery: GetAllPostsQuery) {
+        return this.postRepository.getAllPosts(getAllPostQuery.pageSize, getAllPostQuery.currentPage);
     }
 
 }

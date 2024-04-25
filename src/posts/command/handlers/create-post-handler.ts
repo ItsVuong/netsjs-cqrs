@@ -7,6 +7,7 @@ export class CreatePostHandler implements ICommandHandler<CreatePostCommand>{
    constructor(private readonly postRepository: PostRepository){}
 
     async execute(command: CreatePostCommand){
+        console.log('creating post')
         return this.postRepository.createPost(command.createPostDto);
     }
 }

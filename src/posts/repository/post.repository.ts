@@ -14,11 +14,25 @@ export class PostRepository {
         return createdPost.save();
     }
 
-    async getAllPosts(){
-        return this.postModel.find({}).populate('user');
+    async getAllPosts(pageSize: number, currentPage: number) {
+        const count = await this.postModel.countDocuments({});
+        const pages = count / pageSize;
+
+        if(currentPage >= pages){currentPage = pages}
+        if(currentPage <= 0){currentPage = 1}
+        const posts = this.postModel.find(
+            {}, null,
+            { sort: {_id: 1}, limit: pageSize, skip: (currentPage - 1) * pageSize  }
+        );
+
+        return posts;
     }
 
-    async updatePost(id, UpdatePostDto){
-        return this.postModel.findByIdAndUpdate(id, UpdatePostDto, {new: true})
+    async getPostByID(id: string){
+        return this.postModel.findOne({_id: id})
+    }
+
+    async updatePost(id, UpdatePostDto) {
+        return this.postModel.findByIdAndUpdate(id, UpdatePostDto, { new: true })
     }
 }

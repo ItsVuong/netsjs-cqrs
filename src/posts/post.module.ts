@@ -9,6 +9,7 @@ import { PostController } from "./post.controller";
 import { PostRepository } from "./repository/post.repository";
 import { CommandHadlers } from "./command/handlers";
 import { QueryHandler } from "./query/handlers";
+import { PostService } from "./post.service";
 
 @Module({
     imports: [MongooseModule.forFeature([{name: Post.name, schema: PostSchema}]),
@@ -17,6 +18,7 @@ import { QueryHandler } from "./query/handlers";
     providers: [
         PostRepository, 
         UserExistsValidator, 
+        PostService,
         ...QueryHandler,
         ...CommandHadlers
     ]
