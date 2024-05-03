@@ -15,12 +15,12 @@ export class Post {
     images?: string[];
 
     @Prop({ default: Date.now })
-    createdAt: Date;
+    createdAt: Date; 
 
     @Prop({ default: Date.now })
     updatedAt: Date;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
-    user: User;  
+    userID: User;    
 }
 export const PostSchema = SchemaFactory.createForClass(Post);    

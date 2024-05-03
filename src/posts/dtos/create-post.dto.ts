@@ -1,7 +1,7 @@
 import { Optional } from "@nestjs/common";
 import { SchemaFactory } from "@nestjs/mongoose";
 import { IsNotEmpty, IsString, Validate, ValidateNested } from "class-validator";
-import { UserExistsValidator } from "src/decorators/UserExistValidator.decorator";
+import { UserExistsValidator } from "src/utils/decorators/UserExistValidator.decorator";
 
 export class CreatePostDto {
     @IsNotEmpty()
@@ -21,7 +21,6 @@ export class CreatePostDto {
     updatedAt: Date;
 
     @IsNotEmpty()
-    @Validate(UserExistsValidator)
-    user: string;
+    userID: string;
 }
 export const UserSchema = SchemaFactory.createForClass(CreatePostDto);    

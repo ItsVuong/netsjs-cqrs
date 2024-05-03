@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, Type } from "class-transformer";
 import { IsDate, IsNotEmpty, IsOptional, IsString, Validate } from "class-validator";
-import { DateStringValidator, validateDateString } from "src/decorators/DateValidator.decorator";
-import { UserExistsValidator } from "src/decorators/UserExistValidator.decorator";
+import { DateStringValidator, validateDateString } from "src/utils/decorators/DateValidator.decorator";
+import { UserExistsValidator } from "src/utils/decorators/UserExistValidator.decorator";
 
 export class CreateUserDto {
     @ApiProperty({

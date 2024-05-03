@@ -1,7 +1,6 @@
 import { AggregateRoot } from "@nestjs/cqrs";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose from "mongoose";
-import { CommentCreatedEvent } from "src/events/comment-created-event";
 
 @Schema()
 export class Comment extends AggregateRoot{
@@ -23,12 +22,8 @@ export class Comment extends AggregateRoot{
 
     @Prop()
     updatedAt: Date;
-
+ 
     @Prop()
     createdAt: Date;
-
-    public CommentCreated(){
-        this.apply(new CommentCreatedEvent(this.postID, this.parentID))
-    }
 }
 export const CommentSchema = SchemaFactory.createForClass(Comment);

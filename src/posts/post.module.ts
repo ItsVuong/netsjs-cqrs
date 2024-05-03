@@ -3,7 +3,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 
 import { CqrsModule } from "@nestjs/cqrs";
 
-import { UserExistsValidator } from "src/decorators/UserExistValidator.decorator";
+import { UserExistsValidator } from "src/utils/decorators/UserExistValidator.decorator";
 import { Post, PostSchema } from "./schemas/post.schema";
 import { PostController } from "./post.controller";
 import { PostRepository } from "./repository/post.repository";

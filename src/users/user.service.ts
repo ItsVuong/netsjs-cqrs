@@ -30,14 +30,4 @@ export class UserService {
         const result = salt + '.' + hashedPassword.toString('hex');
         return result;
     }
-    // createUser(createUserDto: CreateUserDto) {
-    //     const salt = randomBytes(8).toString('hex');
-    //     scrypt
-    //         (createUserDto.password, salt, 32,
-    //             (err, derivedKey) => {
-    //                 if (err) throw err;
-    //                 const hashedPassword = salt + '.' + derivedKey.toString('hex');
-    //                 return this.commandBus.execute(new CreateUserCommand({ ...createUserDto, password: hashedPassword }))
-    //             });
-    // }
 }

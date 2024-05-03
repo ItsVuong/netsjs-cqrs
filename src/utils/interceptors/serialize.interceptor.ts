@@ -1,14 +1,14 @@
 import { CallHandler, ExecutionContext, NestInterceptor, UseInterceptors } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
 import { Observable, map } from "rxjs";
+import { UserService } from "src/users/user.service";
 
 export function Serialize(dto: any){
     return UseInterceptors(new SerializeInterceptor(dto));
 }
 
 export class SerializeInterceptor implements NestInterceptor {
-    constructor(private dto:any){
-    }
+    constructor(private dto:any){}
     intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any>  {
         
         return next.handle().pipe(

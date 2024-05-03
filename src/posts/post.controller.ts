@@ -1,10 +1,14 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, ParseIntPipe, Patch, Post, Query, Req, UseGuards, ValidationPipe } from "@nestjs/common";
+import {
+    Body, Controller, Get,
+    HttpException, HttpStatus, Param,
+    Patch, Post, Query, Req, UseGuards, UseInterceptors, ValidationPipe
+} from "@nestjs/common";
 import { CreatePostDto } from "./dtos/create-post.dto";
 import { UpdatePostDto } from "./dtos/update-post.dto";
 import { JwtAuthGuard } from "src/auth/jwt-auth-guard/jwt-auth.guard";
 import { PostService } from "./post.service";
-import { ToNumberPipe } from "src/pipes/validation.pipe";
-import { Request } from "express";
+import { ToNumberPipe } from "src/utils/pipes/to-number.pipe";
+import { UserExtractInterceptor } from "src/utils/interceptors/user-extract.interceptor";
 
 @Controller('post')
 export class PostController {
@@ -13,13 +17,11 @@ export class PostController {
     ) { }
 
     @UseGuards(JwtAuthGuard)
+    @UseInterceptors(UserExtractInterceptor)
     @Post()
     async createPost(
-        @Body(new ValidationPipe({ whitelist: true })) bodyObject,
-        @Req() req
+        @Body(new ValidationPipe({ whitelist: true })) createPostDto: CreatePostDto,
     ) {
-        const createPostDto: CreatePostDto = bodyObject;
-        createPostDto.user = req.user.userID;
         return this.postService.createPost(createPostDto);
     }
 
@@ -34,16 +36,15 @@ export class PostController {
     @UseGuards(JwtAuthGuard)
     @Patch(':id')
     async updatePost(
-        @Param('id') id: string, 
+        @Param('id') id: string,
         @Body(new ValidationPipe({ whitelist: true })) updatePostDto: UpdatePostDto,
         @Req() req
     ) {
         const user = req.user;
-        console.log(user)
-        if(user){
+        if (user) {
             const post = await this.postService.findOneByID(id);
-            console.log(post);
-            if (user.userID.toString() !== post.user.toString()) 
+            console.log(user.userID.toString(), post.userID.toString())
+            if (user.userID.toString() !== post.userID.toString())
                 throw new HttpException('Permision denied!', HttpStatus.FORBIDDEN);
         }
         return this.postService.updatePost(id, updatePostDto);

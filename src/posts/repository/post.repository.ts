@@ -16,14 +16,15 @@ export class PostRepository {
 
     async getAllPosts(pageSize: number, currentPage: number) {
         const count = await this.postModel.countDocuments({});
-        const pages = count / pageSize;
+        const pages = Math.round(count / pageSize);
 
         if(currentPage >= pages){currentPage = pages}
-        if(currentPage <= 0){currentPage = 1}
-        const posts = this.postModel.find(
+        if(currentPage <= 0){currentPage = 1} 
+
+        const posts = this.postModel.find( 
             {}, null,
             { sort: {_id: 1}, limit: pageSize, skip: (currentPage - 1) * pageSize  }
-        );
+        ).populate('userID');
 
         return posts;
     }

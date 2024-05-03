@@ -4,7 +4,7 @@ import { ApiBadRequestResponse, ApiCreatedResponse } from "@nestjs/swagger";
 import { User } from "./schemas/user.schema";
 import { UserService } from "./user.service";
 import { UserDto } from "./dtos/user.dto";
-import { Serialize, SerializeInterceptor } from "src/interceptors/serialize.interceptor";
+import { Serialize } from "src/utils/interceptors/serialize.interceptor";
 
 
 @Controller('/user')
@@ -12,14 +12,6 @@ export class UserController{
     constructor(
         private readonly userService: UserService,
     ){}
-
-    @ApiCreatedResponse({
-        description: "Return user object as created.",
-        type: User
-    })
-    @ApiBadRequestResponse({
-        description: "Username has already been used or date of birth is invalid."
-    })
 
     @Post()
     async createUser(@Body(new ValidationPipe({ transform: true })) createUserDto: CreateUserDto)
