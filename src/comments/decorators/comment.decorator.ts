@@ -6,9 +6,9 @@ export const Comment = createParamDecorator(
     const postID = request.params['postid'];
     const result = {postID: postID}
 
-    if(request.user){ result['userID'] = request.user.userID;}
-    if(request.params['commentid']){result['parentID'] = request.params['commentid'];}
-    result["content"] = request.body.content
+    if(request.user){ result['userID'] = request.user?.userID;}
+    result["content"] = request.body?.content;
+    result["parentID"] = request.body?.parentID;
     return result; 
   },
 );

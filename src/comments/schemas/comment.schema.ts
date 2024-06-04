@@ -1,6 +1,8 @@
 import { AggregateRoot } from "@nestjs/cqrs";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose from "mongoose";
+import { Post } from "src/posts/schemas/post.schema";
+import { User } from "src/users/schemas/user.schema";
 
 @Schema()
 export class Comment extends AggregateRoot{
@@ -12,13 +14,13 @@ export class Comment extends AggregateRoot{
     content: string;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
-    userID: string;
+    userID: User;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Post', required: true })
-    postID: string;
+    postID: Post;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Comment', required: false })
-    parentID: string;
+    parentID: Comment; 
 
     @Prop()
     updatedAt: Date;
